@@ -5,8 +5,28 @@
 <div class="container">
     <title>게시판</title>
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <h2>Post</h2>
-
+    <div style="padding-bottom: 50px">
+        <h2 style="float: left">Post</h2>
+        <a style="float: right" th:href="@{/write}" class="btn btn-primary" role="button">글 작성</a>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>제목이 들어갈 자리</td>
+            <td>작성자가 들어갈 자리</td>
+            <td>작성일이 들어갈 자리</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
