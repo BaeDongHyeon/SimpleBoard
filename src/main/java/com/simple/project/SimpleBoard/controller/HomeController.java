@@ -22,4 +22,9 @@ public class HomeController {
     public String signupPage() {
         return "form/signupPage";
     }
+
+    @GetMapping("/write")
+    public String writePage() {
+        return "form/writePage";
+    }
 }
