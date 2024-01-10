@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.Member;
+import com.simple.project.SimpleBoard.domain.Post;
 import com.simple.project.SimpleBoard.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,8 @@ public class HomeController {
     }
 
     @GetMapping("/write")
-    public String writePage() {
+    public String writePage(Model model) {
+        model.addAttribute("post", new Post());
         return "form/writePage";
     }
 
@@ -44,6 +46,11 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(Member member) {
+        return "redirect:/";
+    }
+
+    @PostMapping("/write")
+    public String write(Post post) {
         return "redirect:/";
     }
 }
