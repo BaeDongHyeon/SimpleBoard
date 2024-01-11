@@ -3,20 +3,26 @@ package com.simple.project.SimpleBoard.controller;
 import com.simple.project.SimpleBoard.domain.Member;
 import com.simple.project.SimpleBoard.domain.Post;
 import com.simple.project.SimpleBoard.service.MemberService;
+import com.simple.project.SimpleBoard.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
     private final MemberService memberService;
+    private final PostService postService;
 
     @GetMapping("/")
-    public String mainPage() {
+    public String mainPage(Model model) {
+        List<Post> posts = postService.findAllPosts();
+        model.addAttribute("posts", posts);
         return "form/index";
     }
 
@@ -51,6 +57,7 @@ public class HomeController {
 
     @PostMapping("/write")
     public String write(Post post) {
+        postService.writePost(post);
         return "redirect:/";
     }
 }
