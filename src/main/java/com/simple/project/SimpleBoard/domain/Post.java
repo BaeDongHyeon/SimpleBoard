@@ -21,6 +21,8 @@ public class Post {
 
     private String writer;
 
+    private String detail;
+
     private LocalDateTime createdDate;
 
 }
