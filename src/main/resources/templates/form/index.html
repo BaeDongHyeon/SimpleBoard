@@ -19,11 +19,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>제목이 들어갈 자리</td>
+        <tr th:each="post : ${posts}">
+            <th scope="row" th:text="${post.getId()}"></th>
+            <td th:text="${post.getTitle()}"></td>
             <!--<td>작성자가 들어갈 자리</td>-->
-            <td>작성일이 들어갈 자리</td>
+            <td th:text="${post.getDetail()}"></td>
         </tr>
         </tbody>
     </table>
