@@ -4,7 +4,7 @@
 <body>
 <div class="container">
     <title>게시글 작성</title>
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
     <h2>Write</h2>
     <form action="/write" role="form" method="post" th:object="${post}">
         <div class="form-group">

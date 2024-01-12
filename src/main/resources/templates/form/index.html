@@ -4,7 +4,7 @@
 <body>
 <div class="container">
     <title>게시판</title>
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
     <div style="padding-bottom: 50px">
         <h2 style="float: left">Post</h2>
         <a style="float: right" th:href="@{/write}" class="btn btn-primary" role="button">글 작성</a>
