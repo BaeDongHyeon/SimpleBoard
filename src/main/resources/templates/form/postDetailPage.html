@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<body>
+<div class="container">
+    <title>게시글 상세</title>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+    <h2>Post Detail</h2>
+    <form action="/write" role="form" method="post" th:object="${post}">
+        <div class="form-group">
+            <label th:for="title">제목</label>
+            <div th:text="*{title}"></div>
+        </div>
+        <div class="form-group">
+            <label th:for="detail">내용</label>
+            <div th:text="*{detail}"></div>
+        </div>
+        <p>
+            <button type="submit" class="btn btn-primary">작성</button>
+            <a th:href="@{/}" class="btn btn-primary" role="button">취소</a>
+        </p>
+    </form>
+</div>
+</body>
+</html>
