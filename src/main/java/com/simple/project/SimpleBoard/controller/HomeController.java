@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,6 +44,14 @@ public class HomeController {
     public String writePage(Model model) {
         model.addAttribute("post", new Post());
         return "form/writePage";
+    }
+
+    @GetMapping("/post/detail/{postId}")
+    public String postDetailPage(@PathVariable("postId") Long postId, Model model) {
+        Optional<Post> findPost = postService.findPost(postId);
+        Post post = findPost.get();
+        model.addAttribute("post", post);
+        return "form/postDetailPage";
     }
 
     @PostMapping("/member/new")
