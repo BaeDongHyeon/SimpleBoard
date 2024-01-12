@@ -48,7 +48,6 @@ class PostServiceTest {
     void writePost() {
         // given
         Post post = new Post();
-        post.setId(1L);
         post.setTitle("제목");
         post.setWriter("abc");
 
@@ -57,7 +56,7 @@ class PostServiceTest {
 
         // when
         postRepository.save(post);
-        Optional<Post> findPost = postRepository.findById(1L);
+        Optional<Post> findPost = postRepository.findById(3L);
 
         // then
         assertThat(findPost.get().getTitle()).isEqualTo(post.getTitle());
@@ -70,15 +69,27 @@ class PostServiceTest {
     void findAllPosts() {
         List<Post> findAll = postRepository.findAll();
 
-        Post post2 = findAll.get(0);
-        Post post3 = findAll.get(1);
+        int cnt = 2;
+        for (Post post : findAll) {
+            assertThat(post.getTitle()).isEqualTo("제목" + cnt);
+            assertThat(post.getDetail()).isEqualTo("내용" + cnt);
+            assertThat(post.getWriter()).isEqualTo("abc" + cnt);
+            cnt++;
+        }
 
-        assertThat(post2.getTitle()).isEqualTo("제목2");
-        assertThat(post2.getDetail()).isEqualTo("내용2");
-        assertThat(post2.getWriter()).isEqualTo("abc2");
+    }
 
-        assertThat(post3.getTitle()).isEqualTo("제목3");
-        assertThat(post3.getDetail()).isEqualTo("내용3");
-        assertThat(post3.getWriter()).isEqualTo("abc3");
+    @Test
+    @DisplayName("해당 게시글이 검색되어야 한다.")
+    void findPost() {
+        for (Post post : postRepository.findAll()) {
+            System.out.println("post.getId() = " + post.getId());
+        }
+
+        Optional<Post> post = postRepository.findById(4L);
+
+        assertThat(post.get().getTitle()).isEqualTo("제목2");
+        assertThat(post.get().getDetail()).isEqualTo("내용2");
+        assertThat(post.get().getWriter()).isEqualTo("abc2");
     }
 }
