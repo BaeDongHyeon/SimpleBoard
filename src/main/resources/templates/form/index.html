@@ -21,7 +21,7 @@
         <tbody>
         <tr th:each="post : ${posts}">
             <th scope="row" th:text="${post.getId()}"></th>
-            <td><a th:href="@{/post/detail(postId=${post.getId()})}" th:text="${post.getTitle()}"></a></td>
+            <td><a th:href="@{/post/detail/{postId}(postId=${post.getId()})}" th:text="${post.getTitle()}"></a></td>
             <!--<td>작성자가 들어갈 자리</td>-->
             <td th:text="${#temporals.format(post.getCreatedDate(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
