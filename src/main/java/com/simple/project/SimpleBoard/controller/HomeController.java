@@ -46,6 +46,12 @@ public class HomeController {
         return "form/writePage";
     }
 
+    @GetMapping("/delete/post/{postId}")
+    public String deletePost(@PathVariable("postId") Long postId) {
+        postService.deletePost(postId);
+        return "redirect:/";
+    }
+
     @GetMapping("/post/detail/{postId}")
     public String postDetailPage(@PathVariable("postId") Long postId, Model model) {
         Optional<Post> findPost = postService.findPost(postId);
