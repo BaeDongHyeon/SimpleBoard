@@ -46,6 +46,14 @@ public class HomeController {
         return "form/writePage";
     }
 
+    @GetMapping("/update/post/{postId}")
+    public String updatePost(@PathVariable("postId") Long postId, Model model) {
+        Optional<Post> findPost = postService.findPost(postId);
+
+        model.addAttribute("post", findPost.get());
+        return "form/writePage";
+    }
+
     @GetMapping("/delete/post/{postId}")
     public String deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
