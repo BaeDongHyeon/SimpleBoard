@@ -26,9 +26,9 @@ public class Post {
     private String detail;
 
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     @LastModifiedDate
-    private LocalDateTime updatedDate;
+    private LocalDateTime updatedDate = LocalDateTime.now();
 
 }
