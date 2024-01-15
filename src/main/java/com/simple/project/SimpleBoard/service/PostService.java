@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.service;
 
 import com.simple.project.SimpleBoard.domain.Post;
+import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public void writePost(Post post) {
-        postRepository.save(post);
+    public void writePost(PostSaveRequest postSaveRequest) {
+        postRepository.save(postSaveRequest.toEntity());
     }
 
     public List<Post> findAllPosts() {
