@@ -1,18 +1,17 @@
 package com.simple.project.SimpleBoard.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public class Post {
 
     @Id @GeneratedValue
@@ -25,10 +24,22 @@ public class Post {
 
     private String detail;
 
-    @CreationTimestamp
-    private LocalDateTime createdDate = LocalDateTime.now();
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
-    private LocalDateTime updatedDate = LocalDateTime.now();
+    private LocalDateTime updatedDate;
 
+    @Builder
+    public Post(String title, String detail, String writer) {
+        this.title = title;
+        this.detail = detail;
+        this.writer = writer;
+    }
+
+    public void update(String title, String detail) {
+        this.title = title;
+        this.detail = detail;
+    }
 }
