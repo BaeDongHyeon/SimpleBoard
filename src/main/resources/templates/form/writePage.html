@@ -6,15 +6,19 @@
     <title>게시글 작성</title>
     <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
     <h2>Write</h2>
-    <form action="/write" role="form" method="post" th:object="${post}">
-        <input th:field="*{id}" type="hidden" class="form-control">
+    <form action="/write" role="form" method="post" th:object="${postSaveRequest}">
+<!--        <input th:field="*{id}" type="hidden" class="form-control">-->
         <div class="form-group">
             <label th:for="title">제목</label>
             <input th:field="*{title}" type="text" class="form-control" placeholder="TITLE">
         </div>
         <div class="form-group">
-            <label th:for="detail">내용</label>
-            <textarea th:field="*{detail}" type="text" class="form-control" placeholder="TEXT"></textarea>
+            <label th:for="writer">작성자</label>
+            <input th:field="*{writer}" type="text" class="form-control" placeholder="WRITER">
+        </div>
+        <div class="form-group">
+            <label th:for="content">내용</label>
+            <textarea th:field="*{content}" type="text" class="form-control" placeholder="TEXT"></textarea>
         </div>
         <p>
             <button type="submit" class="btn btn-primary">작성</button>
