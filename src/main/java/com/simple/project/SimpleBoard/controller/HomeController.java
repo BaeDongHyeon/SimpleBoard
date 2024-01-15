@@ -2,6 +2,7 @@ package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.Member;
 import com.simple.project.SimpleBoard.domain.Post;
+import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
 import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
 import com.simple.project.SimpleBoard.service.PostService;
@@ -22,7 +23,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String mainPage(Model model) {
-        List<Post> posts = postService.findAllPosts();
+        List<PostCallResponse> posts = postService.findAllPosts();
         model.addAttribute("posts", posts);
         return "form/index";
     }
