@@ -1,7 +1,6 @@
 package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.Member;
-import com.simple.project.SimpleBoard.domain.Post;
 import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
 import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -48,9 +46,9 @@ public class HomeController {
 
     @GetMapping("/update/post/{postId}")
     public String updatePost(@PathVariable("postId") Long postId, Model model) {
-        Optional<Post> findPost = postService.findPost(postId);
+        PostCallResponse findPost = postService.findPost(postId);
 
-        model.addAttribute("post", findPost.get());
+        model.addAttribute("post", findPost);
         return "form/writePage";
     }
 
@@ -62,9 +60,8 @@ public class HomeController {
 
     @GetMapping("/post/detail/{postId}")
     public String postDetailPage(@PathVariable("postId") Long postId, Model model) {
-        Optional<Post> findPost = postService.findPost(postId);
-        Post post = findPost.get();
-        model.addAttribute("post", post);
+        PostCallResponse findPost = postService.findPost(postId);
+        model.addAttribute("post", findPost);
         return "form/postDetailPage";
     }
 

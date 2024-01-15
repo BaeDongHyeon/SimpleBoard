@@ -30,8 +30,11 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Post> findPost(Long postId) {
-        return postRepository.findById(postId);
+    public PostCallResponse findPost(Long postId) {
+        Optional<Post> findPost = postRepository.findById(postId);
+        return PostCallResponse.builder()
+                .post(findPost.get())
+                .build();
     }
 
     public void deletePost(Long postId) {
