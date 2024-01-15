@@ -2,6 +2,7 @@ package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.Member;
 import com.simple.project.SimpleBoard.domain.Post;
+import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
 import com.simple.project.SimpleBoard.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class HomeController {
 
     @GetMapping("/write")
     public String writePage(Model model) {
-        model.addAttribute("post", new Post());
+        model.addAttribute("postSaveRequest", new PostSaveRequest());
         return "form/writePage";
     }
 
@@ -80,8 +81,8 @@ public class HomeController {
     }
 
     @PostMapping("/write")
-    public String write(Post post) {
-        postService.writePost(post);
+    public String write(PostSaveRequest postSaveRequest) {
+        postService.writePost(postSaveRequest);
         return "redirect:/";
     }
 }
