@@ -18,7 +18,15 @@ public class PostService {
     private final PostRepository postRepository;
 
     public void writePost(PostSaveRequest postSaveRequest) {
-        postRepository.save(postSaveRequest.toEntity());
+        Optional<Post> findPost;
+        Post post = postSaveRequest.toEntity();
+        if (postSaveRequest.getId() != null) {
+            findPost = postRepository.findById(postSaveRequest.getId());
+            post = findPost.get();
+            post.update(postSaveRequest.getTitle(), postSaveRequest.getContent());
+        }
+        postRepository.save(post);
+
     }
 
     public List<PostCallResponse> findAllPosts() {

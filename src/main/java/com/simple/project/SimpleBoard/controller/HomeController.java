@@ -48,7 +48,14 @@ public class HomeController {
     public String updatePost(@PathVariable("postId") Long postId, Model model) {
         PostCallResponse findPost = postService.findPost(postId);
 
-        model.addAttribute("post", findPost);
+        PostSaveRequest postSaveRequest = PostSaveRequest.builder()
+                        .id(postId)
+                        .title(findPost.getTitle())
+                        .writer(findPost.getWriter())
+                        .content(findPost.getContent())
+                        .build();
+
+        model.addAttribute("postSaveRequest", postSaveRequest);
         return "form/writePage";
     }
 
