@@ -22,7 +22,7 @@ public class Post {
 
     private String writer;
 
-    private String detail;
+    private String content;
 
     @CreatedDate
     @Column(updatable = false)
@@ -32,14 +32,14 @@ public class Post {
     private LocalDateTime updatedDate;
 
     @Builder
-    public Post(String title, String detail, String writer) {
+    public Post(String title, String content, String writer) {
         this.title = title;
-        this.detail = detail;
+        this.content = content;
         this.writer = writer;
     }
 
-    public void update(String title, String detail) {
+    public void update(String title, String content) {
         this.title = title;
-        this.detail = detail;
+        this.content = content;
     }
 }
