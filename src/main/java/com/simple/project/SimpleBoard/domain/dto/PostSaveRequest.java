@@ -9,12 +9,14 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 public class PostSaveRequest {
+    private Long id;
     private String title;
     private String content;
     private String writer;
 
     @Builder
-    public PostSaveRequest(String title, String content, String writer) {
+    public PostSaveRequest(Long id, String title, String content, String writer) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.writer = writer;
@@ -22,6 +24,7 @@ public class PostSaveRequest {
 
     public Post toEntity() {
         return Post.builder()
+                .id(id)
                 .title(title)
                 .content(content)
                 .writer(writer)
