@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -29,6 +28,13 @@ public class Member {
         this.email = email;
         this.password = password;
         this.name = name;
+    }
+
+    public boolean passwordMatch(String password) {
+        if (this.password.equals(password)) {
+            return true;
+        }
+        return false;
     }
 
     public void update(String password, String name) {
