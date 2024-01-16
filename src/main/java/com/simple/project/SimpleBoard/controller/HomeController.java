@@ -1,6 +1,5 @@
 package com.simple.project.SimpleBoard.controller;
 
-import com.simple.project.SimpleBoard.domain.Member;
 import com.simple.project.SimpleBoard.domain.dto.LoginRequest;
 import com.simple.project.SimpleBoard.domain.dto.MemberSaveRequest;
 import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
@@ -81,7 +80,8 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public String login(Member member) {
+    public String login(LoginRequest loginRequest) {
+        memberService.login(loginRequest);
         return "redirect:/";
     }
 
