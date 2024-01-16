@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.Member;
+import com.simple.project.SimpleBoard.domain.dto.MemberSaveRequest;
 import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
 import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
@@ -34,7 +35,7 @@ public class HomeController {
 
     @GetMapping("/signup")
     public String signupPage(Model model) {
-        model.addAttribute("member", new Member());
+        model.addAttribute("member", new MemberSaveRequest());
         return "form/signupPage";
     }
 
@@ -73,8 +74,8 @@ public class HomeController {
     }
 
     @PostMapping("/member/new")
-    public String signup(Member member) {
-        memberService.signupMember(member);
+    public String signup(MemberSaveRequest memberSaveRequest) {
+        memberService.signupMember(memberSaveRequest);
         return "redirect:/login";
     }
 
