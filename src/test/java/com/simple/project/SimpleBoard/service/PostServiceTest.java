@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.service;
 
 import com.simple.project.SimpleBoard.domain.Post;
+import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import org.aspectj.lang.annotation.Before;
@@ -25,71 +26,65 @@ class PostServiceTest {
     @Autowired
     PostRepository postRepository;
 
-    @BeforeEach
-    void setup() {
-        Post post2 = new Post();
-        post2.setId(2L);
-        post2.setTitle("제목2");
-        post2.setDetail("내용2");
-        post2.setWriter("abc2");
-
-        Post post3 = new Post();
-        post3.setId(3L);
-        post3.setTitle("제목3");
-        post3.setDetail("내용3");
-        post3.setWriter("abc3");
-
-        postRepository.save(post2);
-        postRepository.save(post3);
-    }
-
     @Test
     @DisplayName("게시글이 작성되어야 한다.")
     void writePost() {
         // given
-        Post post = new Post();
-        post.setTitle("제목");
-        post.setWriter("abc");
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-        post.setCreatedDate(localDateTime);
+        PostSaveRequest postSaveRequest = new PostSaveRequest(null, "제목1", "내용1", "작성자1");
+        Post post = postSaveRequest.toEntity();
 
         // when
-        postRepository.save(post);
-        Optional<Post> findPost = postRepository.findById(3L);
+        Long postId = postRepository.save(post).getId();
+        Optional<Post> findPost = postRepository.findById(postId);
 
         // then
-        assertThat(findPost.get().getTitle()).isEqualTo(post.getTitle());
-        assertThat(findPost.get().getWriter()).isEqualTo(post.getWriter());
-        assertThat(findPost.get().getCreatedDate()).isEqualTo(localDateTime);
+        Post onePost = findPost.get();
+        assertThat(onePost.getTitle()).isEqualTo(postSaveRequest.getTitle());
+        assertThat(onePost.getContent()).isEqualTo(postSaveRequest.getContent());
+        assertThat(onePost.getWriter()).isEqualTo(postSaveRequest.getWriter());
     }
 
     @Test
     @DisplayName("모든 게시글이 조회되어야 한다.")
     void findAllPosts() {
+        // given
+        PostSaveRequest postSaveRequest1 = new PostSaveRequest(null, "제목1", "내용1", "작성자1");
+        postRepository.save(postSaveRequest1.toEntity());
+
+        PostSaveRequest postSaveRequest2 = new PostSaveRequest(null, "제목2", "내용2", "작성자2");
+        postRepository.save(postSaveRequest2.toEntity());
+
+        PostSaveRequest postSaveRequest3 = new PostSaveRequest(null, "제목3", "내용3", "작성자3");
+        postRepository.save(postSaveRequest3.toEntity());
+
+        // when
         List<Post> findAll = postRepository.findAll();
+        int count = findAll.size();
 
-        int cnt = 2;
-        for (Post post : findAll) {
-            assertThat(post.getTitle()).isEqualTo("제목" + cnt);
-            assertThat(post.getDetail()).isEqualTo("내용" + cnt);
-            assertThat(post.getWriter()).isEqualTo("abc" + cnt);
-            cnt++;
-        }
-
+        // then
+        assertThat(count).isEqualTo(3);
     }
 
     @Test
     @DisplayName("해당 게시글이 검색되어야 한다.")
     void findPost() {
-        for (Post post : postRepository.findAll()) {
-            System.out.println("post.getId() = " + post.getId());
-        }
+        // given
+        PostSaveRequest postSaveRequest1 = new PostSaveRequest(null, "제목1", "내용1", "작성자1");
+        postRepository.save(postSaveRequest1.toEntity());
 
-        Optional<Post> post = postRepository.findById(4L);
+        PostSaveRequest postSaveRequest2 = new PostSaveRequest(null, "제목2", "내용2", "작성자2");
+        Long postId = postRepository.save(postSaveRequest2.toEntity()).getId();
 
-        assertThat(post.get().getTitle()).isEqualTo("제목2");
-        assertThat(post.get().getDetail()).isEqualTo("내용2");
-        assertThat(post.get().getWriter()).isEqualTo("abc2");
+        PostSaveRequest postSaveRequest3 = new PostSaveRequest(null, "제목3", "내용3", "작성자3");
+        postRepository.save(postSaveRequest3.toEntity());
+
+        // when
+        Optional<Post> findPost = postRepository.findById(postId);
+        Post post = findPost.get();
+
+        // then
+        assertThat(post.getTitle()).isEqualTo(postSaveRequest2.getTitle());
+        assertThat(post.getContent()).isEqualTo(postSaveRequest2.getContent());
+        assertThat(post.getWriter()).isEqualTo(postSaveRequest2.getWriter());
     }
 }
