@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.Member;
+import com.simple.project.SimpleBoard.domain.dto.LoginRequest;
 import com.simple.project.SimpleBoard.domain.dto.MemberSaveRequest;
 import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
 import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
@@ -29,7 +30,7 @@ public class HomeController {
 
     @GetMapping("/login")
     public String loginPage(Model model) {
-        model.addAttribute("member", new Member());
+        model.addAttribute("member", new LoginRequest());
         return "form/loginPage";
     }
 
