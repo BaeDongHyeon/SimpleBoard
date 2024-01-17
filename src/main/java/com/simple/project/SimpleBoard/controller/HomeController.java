@@ -1,5 +1,6 @@
 package com.simple.project.SimpleBoard.controller;
 
+import com.simple.project.SimpleBoard.domain.Member;
 import com.simple.project.SimpleBoard.domain.dto.LoginRequest;
 import com.simple.project.SimpleBoard.domain.dto.MemberSaveRequest;
 import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
@@ -23,9 +24,15 @@ public class HomeController {
     private final PostService postService;
 
     @GetMapping("/")
-    public String mainPage(Model model) {
+    public String mainPage(Model model, @CookieValue(name = "memberId", required = false) Long memberId) {
         List<PostCallResponse> posts = postService.findAllPosts();
         model.addAttribute("posts", posts);
+        model.addAttribute("memberId", memberId);
+
+        if (memberId != null) {
+            Member member = memberService.findMember(memberId);
+            model.addAttribute("memberName", member.getName());
+        }
         return "form/index";
     }
 
@@ -33,6 +40,14 @@ public class HomeController {
     public String loginPage(Model model) {
         model.addAttribute("member", new LoginRequest());
         return "form/loginPage";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("memberId", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 
     @GetMapping("/signup")
