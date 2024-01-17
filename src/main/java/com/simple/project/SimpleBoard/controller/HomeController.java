@@ -6,6 +6,8 @@ import com.simple.project.SimpleBoard.domain.dto.PostCallResponse;
 import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
 import com.simple.project.SimpleBoard.service.PostService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,8 +82,14 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public String login(LoginRequest loginRequest) {
-        memberService.login(loginRequest);
+    public String login(LoginRequest loginRequest, HttpServletResponse response) {
+        Long memberId = memberService.login(loginRequest);
+
+        if (memberId != null) {
+            Cookie cookie = new Cookie("memberId", String.valueOf(memberId));
+            response.addCookie(cookie);
+        }
+
         return "redirect:/";
     }
 
