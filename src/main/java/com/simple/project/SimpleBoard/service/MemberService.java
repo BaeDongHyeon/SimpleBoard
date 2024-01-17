@@ -15,21 +15,19 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void login(LoginRequest loginRequest) {
+    public Long login(LoginRequest loginRequest) {
         Optional<Member> findEmailSameMember = memberRepository.findByEmail(loginRequest.getEmail());
 
         Member member = null;
         if (findEmailSameMember.isEmpty()) {
-            System.out.println("로그인 실패");
-        } else {
-            member = findEmailSameMember.get();
+            return null;
         }
+        member = findEmailSameMember.get();
 
         if (member.passwordMatch(loginRequest.getPassword())) {
-            System.out.println("로그인 성공");
-        } else {
-            System.out.println("로그인 실패");
+            return member.getId();
         }
+        return null;
     }
 
     public void signupMember(MemberSaveRequest memberSaveRequest) {
