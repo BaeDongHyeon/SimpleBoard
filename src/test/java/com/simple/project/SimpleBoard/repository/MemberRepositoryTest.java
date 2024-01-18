@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.repository;
 
 import com.simple.project.SimpleBoard.domain.Member;
+import com.simple.project.SimpleBoard.domain.dto.MemberSaveRequest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,19 +22,20 @@ class MemberRepositoryTest {
     @DisplayName("회원이 저장되어야 한다.")
     void saveMember() {
         // given
-        Member member = new Member();
-        member.setEmail("abc@naver.com");
-        member.setPassword("1234");
-        member.setName("가나다");
+        MemberSaveRequest memberSaveRequest = MemberSaveRequest.builder()
+                            .email("new@naver.com")
+                            .password("1111")
+                            .name("홍길동")
+                            .build();
 
         // when
-        memberRepository.save(member);
-        Optional<Member> findMember = memberRepository.findById(1L);
+        Long memberId = memberRepository.save(memberSaveRequest.toEntity()).getId();
+        Optional<Member> findMember = memberRepository.findById(memberId);
 
         // then
-        assertThat(findMember.get().getEmail()).isEqualTo(member.getEmail());
-        assertThat(findMember.get().getPassword()).isEqualTo(member.getPassword());
-        assertThat(findMember.get().getName()).isEqualTo(member.getName());
+        assertThat(findMember.get().getEmail()).isEqualTo(memberSaveRequest.getEmail());
+        assertThat(findMember.get().getPassword()).isEqualTo(memberSaveRequest.getPassword());
+        assertThat(findMember.get().getName()).isEqualTo(memberSaveRequest.getName());
     }
 
 }
