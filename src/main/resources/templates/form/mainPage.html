@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<body>
+<div class="container">
+    <title>게시판</title>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+    <div style="padding-bottom: 50px">
+        <h2 style="float: left">Post</h2>
+        <a style="float: right" th:href="@{/write}" class="btn btn-primary" role="button">글 작성</a>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <th scope="row" th:text="${post.getId()}"></th>
+            <td th:text="${post.getTitle()}"></td>
+            <td th:text="${post.getWriter()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
