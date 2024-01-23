@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.form.PostForm;
+import com.simple.project.SimpleBoard.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+
+    private final PostService postService;
 
     @GetMapping("/")
     public String mainPage() {
@@ -28,6 +31,7 @@ public class HomeController {
         if (bindingResult.hasErrors()) {
             return "form/writePage";
         }
+        postService.savePost(postForm);
         return "redirect:/";
     }
 }
