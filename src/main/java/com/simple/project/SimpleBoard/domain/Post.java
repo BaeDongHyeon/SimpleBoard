@@ -15,16 +15,16 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    private String writer;
-
     private String title;
+
+    private String writer;
 
     private String content;
 
     @Builder
-    public Post(String writer, String title, String content) {
-        this.writer = writer;
+    public Post(String title, String writer, String content) {
         this.title = title;
+        this.writer = writer;
         this.content = content;
     }
 }
