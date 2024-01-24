@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.domain.response;
 
 import com.simple.project.SimpleBoard.domain.Post;
+import com.simple.project.SimpleBoard.domain.form.PostForm;
 import lombok.*;
 
 @Getter
@@ -23,6 +24,15 @@ public class PostSearchResponse {
 
     public Post toEntity() {
         return Post.builder()
+                .id(id)
+                .title(title)
+                .writer(writer)
+                .content(content)
+                .build();
+    }
+
+    public PostForm toForm() {
+        return PostForm.builder()
                 .id(id)
                 .title(title)
                 .writer(writer)
