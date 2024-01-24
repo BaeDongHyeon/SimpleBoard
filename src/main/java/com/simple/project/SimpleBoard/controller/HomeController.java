@@ -35,4 +35,10 @@ public class HomeController {
         postService.savePost(postForm);
         return "redirect:/";
     }
+
+    @GetMapping("/post/{postId}")
+    public String postingPage(@PathVariable("postId") Long postId, Model model) {
+        model.addAttribute("post", postService.findPost(postId));
+        return "form/postingPage";
+    }
 }
