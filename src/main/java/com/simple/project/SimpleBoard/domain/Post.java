@@ -23,7 +23,7 @@ public class Post {
 
     private String content;
 
-    @Builder(builderMethodName = "updatePostBuilder")
+    @Builder
     public Post(Long id, String title, String writer, String content) {
         this.id = id;
         this.title = title;
