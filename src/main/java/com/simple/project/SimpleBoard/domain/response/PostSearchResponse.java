@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class PostSearchResponse {
 
     private Long id;
