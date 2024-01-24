@@ -20,7 +20,7 @@
         <tbody>
         <tr th:each="post : ${posts}">
             <th scope="row" th:text="${post.getId()}"></th>
-            <td th:text="${post.getTitle()}"></td>
+            <td><a th:href="@{/post/{postId}(postId=${post.getId()})}" th:text="${post.getTitle()}"></a></td>
             <td th:text="${post.getWriter()}"></td>
         </tr>
         </tbody>
