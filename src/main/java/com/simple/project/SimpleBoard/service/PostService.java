@@ -29,7 +29,7 @@ public class PostService {
     }
 
     public void savePost(PostForm postForm) {
-        Post post = Post.builder()
+        Post post = Post.createPostBuilder()
                 .title(postForm.getTitle())
                 .writer(postForm.getWriter())
                 .content(postForm.getContent())

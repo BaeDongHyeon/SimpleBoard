@@ -22,7 +22,7 @@ public class PostSearchResponse {
     }
 
     public Post toEntity() {
-        return Post.builder()
+        return Post.updatePostBuilder()
                 .id(id)
                 .title(title)
                 .writer(writer)
