@@ -50,6 +50,12 @@ public class PostService {
                 .build();
     }
 
+    public void updatePost(PostForm postForm) {
+        Post post = postRepository.findById(postForm.getId()).get();
+        post.update(postForm.getTitle(), postForm.getWriter(), postForm.getContent());
+        postRepository.save(post);
+    }
+
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
     }

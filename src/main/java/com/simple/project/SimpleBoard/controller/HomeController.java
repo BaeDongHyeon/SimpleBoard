@@ -32,7 +32,12 @@ public class HomeController {
         if (bindingResult.hasErrors()) {
             return "form/writePage";
         }
-        postService.savePost(postForm);
+        if (postForm.getId() == null) {
+            postService.savePost(postForm);
+        } else {
+            postService.updatePost(postForm);
+        }
+
         return "redirect:/";
     }
 
@@ -40,6 +45,13 @@ public class HomeController {
     public String postingPage(@PathVariable("postId") Long postId, Model model) {
         model.addAttribute("post", postService.findPost(postId));
         return "form/postingPage";
+    }
+
+    @GetMapping("/update/post/{postId}")
+    public String updatePost(@PathVariable("postId") Long postId, Model model) {
+        PostForm postForm = postService.findPost(postId).toForm();
+        model.addAttribute("postForm", postForm);
+        return "form/writePage";
     }
 
     @GetMapping("/delete/post/{postId}")
