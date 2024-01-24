@@ -16,7 +16,8 @@ public class HomeController {
     private final PostService postService;
 
     @GetMapping("/")
-    public String mainPage() {
+    public String mainPage(Model model) {
+        model.addAttribute("posts", postService.findAllPosts());
         return "form/mainPage";
     }
 
