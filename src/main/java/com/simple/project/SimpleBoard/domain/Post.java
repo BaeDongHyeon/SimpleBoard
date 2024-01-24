@@ -5,9 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Post {
 
@@ -22,7 +24,8 @@ public class Post {
     private String content;
 
     @Builder
-    public Post(String title, String writer, String content) {
+    public Post(Long id, String title, String writer, String content) {
+        this.id = id;
         this.title = title;
         this.writer = writer;
         this.content = content;
