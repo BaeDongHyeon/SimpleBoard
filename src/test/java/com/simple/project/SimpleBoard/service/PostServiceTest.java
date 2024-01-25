@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -99,8 +99,24 @@ class PostServiceTest {
     }
 
     @Test
+    @DisplayName("특정 게시글이 조회되어야 한다.")
     void findPost() {
+        // given
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
 
+        // stub
+        when(postRepository.findById(post1.getId())).thenReturn(Optional.of(post1));
+
+        // when
+        PostSearchResponse postSearchResponse = postService.findPost(post1.getId());
+
+        // then
+        assertThat(postSearchResponse.getTitle()).isEqualTo(post1.getTitle());
     }
 
     @Test
