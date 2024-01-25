@@ -121,7 +121,37 @@ class PostServiceTest {
 
     @Test
     void updatePost() {
+        // given
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
 
+        // stub
+        when(postRepository.save(any())).thenReturn(post1);
+        when(postRepository.findById(post1.getId())).thenReturn(Optional.of(post1));
+
+        // when
+        PostForm postForm = PostForm.builder()
+                .title(post1.getTitle())
+                .writer(post1.getWriter())
+                .content(post1.getContent())
+                .build();
+        Long postId = postService.savePost(postForm);
+
+        postService.updatePost(PostForm.builder()
+                .id(postId)
+                .title("수정")
+                .writer("수정")
+                .content("수정")
+                .build());
+
+        PostSearchResponse postSearchResponse = postService.findPost(post1.getId());
+
+        // then
+        assertThat(postSearchResponse.getTitle()).isEqualTo("수정");
     }
 
     @Test
