@@ -156,6 +156,28 @@ class PostServiceTest {
 
     @Test
     void deletePost() {
+        // given
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
 
+        // stub
+        when(postRepository.save(any())).thenReturn(post1);
+
+        // when
+        PostForm postForm = PostForm.builder()
+                .title(post1.getTitle())
+                .writer(post1.getWriter())
+                .content(post1.getContent())
+                .build();
+        Long postId = postService.savePost(postForm);
+
+        Long deleteId = postService.deletePost(postId);
+
+        // then
+        assertThat(deleteId).isEqualTo(postId);
     }
 }
