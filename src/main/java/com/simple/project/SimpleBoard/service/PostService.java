@@ -29,13 +29,13 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public void savePost(PostForm postForm) {
+    public Long savePost(PostForm postForm) {
         Post post = Post.createPostBuilder()
                 .title(postForm.getTitle())
                 .writer(postForm.getWriter())
                 .content(postForm.getContent())
                 .build();
-        postRepository.save(post);
+        return postRepository.save(post).getId();
     }
 
     public PostSearchResponse findPost(Long postId) {
