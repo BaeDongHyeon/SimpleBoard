@@ -31,4 +31,10 @@ public class MemberController {
         memberService.saveMember(memberForm);
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("memberForm", new MemberForm());
+        return "form/loginPage";
+    }
 }
