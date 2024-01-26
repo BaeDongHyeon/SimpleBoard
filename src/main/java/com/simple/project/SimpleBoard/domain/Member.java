@@ -29,4 +29,11 @@ public class Member {
         this.password = password;
         this.name = name;
     }
+
+    public Long login(String password) {
+        if (this.password.equals(password)) {
+            return this.id;
+        }
+        return null;
+    }
 }
