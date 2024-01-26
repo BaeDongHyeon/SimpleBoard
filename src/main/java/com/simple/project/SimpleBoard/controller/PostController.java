@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-public class HomeController {
+public class PostController {
 
     private final PostService postService;
 
