@@ -27,6 +27,10 @@ public class MemberService {
     public MemberForm loginMember(MemberForm memberForm) {
         Optional<Member> findEmail = memberRepository.findByEmail(memberForm.getEmail());
 
+        if (findEmail == null) {
+            return null;
+        }
+
         Member member = findEmail.get();
 
         if (member.login(memberForm.getPassword())) {
