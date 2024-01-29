@@ -42,7 +42,7 @@ public class MemberController {
     public String login(@Valid MemberForm memberForm, BindingResult bindingResult) {
         MemberForm loginMember = memberService.loginMember(memberForm);
         if (loginMember == null || bindingResult.hasErrors()) {
-            return "redirect:/login";
+            return "form/loginPage";
         }
         return "redirect:/";
     }
