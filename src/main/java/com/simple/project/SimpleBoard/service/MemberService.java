@@ -2,6 +2,7 @@ package com.simple.project.SimpleBoard.service;
 
 import com.simple.project.SimpleBoard.domain.Member;
 import com.simple.project.SimpleBoard.domain.form.MemberForm;
+import com.simple.project.SimpleBoard.domain.request.MemberLoginRequest;
 import com.simple.project.SimpleBoard.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberForm loginMember(MemberForm memberForm) {
-        Optional<Member> findEmail = memberRepository.findByEmail(memberForm.getEmail());
+    public MemberForm loginMember(MemberLoginRequest memberLoginRequest) {
+        Optional<Member> findEmail = memberRepository.findByEmail(memberLoginRequest.getEmail());
 
         if (findEmail.isEmpty()) {
             return MemberForm.builder()
@@ -34,11 +35,9 @@ public class MemberService {
         }
 
         Member member = findEmail.get();
-        if (member.login(memberForm.getPassword())) {
+        if (member.login(memberLoginRequest.getPassword())) {
             return MemberForm.builder()
                     .id(member.getId())
-                    .email(member.getEmail())
-                    .password(member.getPassword())
                     .name(member.getName())
                     .build();
         }
