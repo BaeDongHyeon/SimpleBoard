@@ -34,7 +34,6 @@ public class MemberService {
         }
 
         Member member = findEmail.get();
-        System.out.println("a");
         if (member.login(memberForm.getPassword())) {
             return MemberForm.builder()
                     .id(member.getId())
