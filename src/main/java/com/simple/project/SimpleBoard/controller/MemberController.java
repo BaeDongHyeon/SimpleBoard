@@ -29,12 +29,21 @@ public class MemberController {
         }
 
         memberService.saveMember(memberForm);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("memberForm", new MemberForm());
         return "form/loginPage";
+    }
+
+    @PostMapping("/login")
+    public String login(@Valid MemberForm memberForm, BindingResult bindingResult) {
+        MemberForm loginMember = memberService.loginMember(memberForm);
+        if (loginMember == null || bindingResult.hasErrors()) {
+            return "redirect:/login";
+        }
+        return "redirect:/";
     }
 }
