@@ -30,10 +30,10 @@ public class Member {
         this.name = name;
     }
 
-    public Long login(String password) {
+    public boolean login(String password) {
         if (this.password.equals(password)) {
-            return this.id;
+            return true;
         }
-        return null;
+        return false;
     }
 }
