@@ -28,7 +28,9 @@ public class MemberService {
         Optional<Member> findEmail = memberRepository.findByEmail(memberForm.getEmail());
 
         if (findEmail.isEmpty()) {
-            return null;
+            return MemberForm.builder()
+                    .id(null)
+                    .build();
         }
 
         Member member = findEmail.get();
@@ -39,6 +41,8 @@ public class MemberService {
                     .name(member.getName())
                     .build();
         }
-        return null;
+        return MemberForm.builder()
+                .id(null)
+                .build();
     }
 }
