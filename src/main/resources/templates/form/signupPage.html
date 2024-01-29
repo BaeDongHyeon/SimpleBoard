@@ -28,7 +28,7 @@
             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError fieldErrorMessage"></span>
         </div>
         <button type="submit" class="btn btn-primary">회원가입</button>
-        <a href="@{/login}" class="btn btn-primary" role="button">취소</a>
+        <a th:href="@{/login}" class="btn btn-primary" role="button">취소</a>
     </form>
 </div>
 </body>
