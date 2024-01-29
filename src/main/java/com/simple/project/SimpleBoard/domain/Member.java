@@ -23,22 +23,17 @@ public class Member {
 
     private String name;
 
-    @Builder
+    @Builder(builderMethodName = "createMember")
     public Member(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
     }
 
-    public boolean passwordMatch(String password) {
+    public boolean login(String password) {
         if (this.password.equals(password)) {
             return true;
         }
         return false;
-    }
-
-    public void update(String password, String name) {
-        this.password = password;
-        this.name = name;
     }
 }

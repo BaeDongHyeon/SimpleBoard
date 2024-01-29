@@ -1,90 +1,183 @@
 package com.simple.project.SimpleBoard.service;
 
 import com.simple.project.SimpleBoard.domain.Post;
-import com.simple.project.SimpleBoard.domain.dto.PostSaveRequest;
+import com.simple.project.SimpleBoard.domain.form.PostForm;
+import com.simple.project.SimpleBoard.domain.response.PostSearchResponse;
 import com.simple.project.SimpleBoard.repository.PostRepository;
-import jakarta.transaction.Transactional;
-import org.aspectj.lang.annotation.Before;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@Transactional
+@ExtendWith(MockitoExtension.class)
 class PostServiceTest {
 
-    @Autowired
-    PostRepository postRepository;
+    @Mock
+    private PostRepository postRepository;
+
+    @InjectMocks
+    private PostService postService;
 
     @Test
-    @DisplayName("게시글이 작성되어야 한다.")
-    void writePost() {
-        // given
-        PostSaveRequest postSaveRequest = new PostSaveRequest(null, "제목1", "내용1", "작성자1");
-        Post post = postSaveRequest.toEntity();
-
-        // when
-        Long postId = postRepository.save(post).getId();
-        Optional<Post> findPost = postRepository.findById(postId);
-
-        // then
-        Post onePost = findPost.get();
-        assertThat(onePost.getTitle()).isEqualTo(postSaveRequest.getTitle());
-        assertThat(onePost.getContent()).isEqualTo(postSaveRequest.getContent());
-        assertThat(onePost.getWriter()).isEqualTo(postSaveRequest.getWriter());
-    }
-
-    @Test
-    @DisplayName("모든 게시글이 조회되어야 한다.")
+    @DisplayName("전체 게시글이 조회되어야 한다.")
+    @Transactional
     void findAllPosts() {
         // given
-        PostSaveRequest postSaveRequest1 = new PostSaveRequest(null, "제목1", "내용1", "작성자1");
-        postRepository.save(postSaveRequest1.toEntity());
+        List<Post> posts = new ArrayList<>();
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
 
-        PostSaveRequest postSaveRequest2 = new PostSaveRequest(null, "제목2", "내용2", "작성자2");
-        postRepository.save(postSaveRequest2.toEntity());
+        Post post2 = Post.builder()
+                .id(2L)
+                .title("제목2")
+                .writer("작성자2")
+                .content("내용2")
+                .build();
 
-        PostSaveRequest postSaveRequest3 = new PostSaveRequest(null, "제목3", "내용3", "작성자3");
-        postRepository.save(postSaveRequest3.toEntity());
+        Post post3 = Post.builder()
+                .id(3L)
+                .title("제목3")
+                .writer("작성자3")
+                .content("내용3")
+                .build();
+
+        posts.add(post1);
+        posts.add(post2);
+        posts.add(post3);
+
+        // stub
+        when(postRepository.findAll()).thenReturn(posts);
 
         // when
-        List<Post> findAll = postRepository.findAll();
-        int count = findAll.size();
+        List<PostSearchResponse> findAllPosts = postService.findAllPosts();
 
         // then
-        assertThat(count).isEqualTo(3);
+        assertThat(findAllPosts.size()).isEqualTo(3);
+
     }
 
     @Test
-    @DisplayName("해당 게시글이 검색되어야 한다.")
-    void findPost() {
+    @DisplayName("게시글이 저장되어야 한다.")
+    @Transactional
+    void savePost() {
         // given
-        PostSaveRequest postSaveRequest1 = new PostSaveRequest(null, "제목1", "내용1", "작성자1");
-        postRepository.save(postSaveRequest1.toEntity());
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
 
-        PostSaveRequest postSaveRequest2 = new PostSaveRequest(null, "제목2", "내용2", "작성자2");
-        Long postId = postRepository.save(postSaveRequest2.toEntity()).getId();
-
-        PostSaveRequest postSaveRequest3 = new PostSaveRequest(null, "제목3", "내용3", "작성자3");
-        postRepository.save(postSaveRequest3.toEntity());
+        // stub
+        when(postRepository.save(any())).thenReturn(post1);
 
         // when
-        Optional<Post> findPost = postRepository.findById(postId);
-        Post post = findPost.get();
+        PostForm postForm = PostForm.builder()
+                        .title(post1.getTitle())
+                        .writer(post1.getWriter())
+                        .content(post1.getContent())
+                        .build();
+
+        Long postId = postService.savePost(postForm);
 
         // then
-        assertThat(post.getTitle()).isEqualTo(postSaveRequest2.getTitle());
-        assertThat(post.getContent()).isEqualTo(postSaveRequest2.getContent());
-        assertThat(post.getWriter()).isEqualTo(postSaveRequest2.getWriter());
+        assertThat(postId).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("특정 게시글이 조회되어야 한다.")
+    void findPost() {
+        // given
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
+
+        // stub
+        when(postRepository.findById(post1.getId())).thenReturn(Optional.of(post1));
+
+        // when
+        PostSearchResponse postSearchResponse = postService.findPost(post1.getId());
+
+        // then
+        assertThat(postSearchResponse.getTitle()).isEqualTo(post1.getTitle());
+    }
+
+    @Test
+    void updatePost() {
+        // given
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
+
+        // stub
+        when(postRepository.save(any())).thenReturn(post1);
+        when(postRepository.findById(post1.getId())).thenReturn(Optional.of(post1));
+
+        // when
+        PostForm postForm = PostForm.builder()
+                .title(post1.getTitle())
+                .writer(post1.getWriter())
+                .content(post1.getContent())
+                .build();
+        Long postId = postService.savePost(postForm);
+
+        postService.updatePost(PostForm.builder()
+                .id(postId)
+                .title("수정")
+                .writer("수정")
+                .content("수정")
+                .build());
+
+        PostSearchResponse postSearchResponse = postService.findPost(post1.getId());
+
+        // then
+        assertThat(postSearchResponse.getTitle()).isEqualTo("수정");
+    }
+
+    @Test
+    void deletePost() {
+        // given
+        Post post1 = Post.builder()
+                .id(1L)
+                .title("제목1")
+                .writer("작성자1")
+                .content("내용1")
+                .build();
+
+        // stub
+        when(postRepository.save(any())).thenReturn(post1);
+
+        // when
+        PostForm postForm = PostForm.builder()
+                .title(post1.getTitle())
+                .writer(post1.getWriter())
+                .content(post1.getContent())
+                .build();
+        Long postId = postService.savePost(postForm);
+
+        Long deleteId = postService.deletePost(postId);
+
+        // then
+        assertThat(deleteId).isEqualTo(postId);
     }
 }

@@ -1,19 +1,16 @@
 package com.simple.project.SimpleBoard.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public class Post {
 
     @Id @GeneratedValue
@@ -26,23 +23,24 @@ public class Post {
 
     private String content;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    private LocalDateTime updatedDate;
-
     @Builder
-    public Post(Long id, String title, String content, String writer) {
+    public Post(Long id, String title, String writer, String content) {
         this.id = id;
         this.title = title;
-        this.content = content;
         this.writer = writer;
+        this.content = content;
     }
 
-    public void update(String title, String content) {
+    @Builder(builderMethodName = "createPostBuilder")
+    public Post(String title, String writer, String content) {
         this.title = title;
+        this.writer = writer;
+        this.content = content;
+    }
+
+    public void update(String title, String writer, String content) {
+        this.title = title;
+        this.writer = writer;
         this.content = content;
     }
 }
