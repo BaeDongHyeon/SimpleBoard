@@ -6,6 +6,8 @@ import com.simple.project.SimpleBoard.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -20,5 +22,19 @@ public class MemberService {
                         .build();
 
         memberRepository.save(member);
+    }
+
+    public MemberForm loginMember(MemberForm memberForm) {
+        Optional<Member> findEmail = memberRepository.findByEmail(memberForm.getEmail());
+
+        Member member = findEmail.get();
+
+        if (member.login(memberForm.getPassword())) {
+            return MemberForm.builder()
+                    .id(member.getId())
+                    .name(member.getName())
+                    .build();
+        }
+        return null;
     }
 }
