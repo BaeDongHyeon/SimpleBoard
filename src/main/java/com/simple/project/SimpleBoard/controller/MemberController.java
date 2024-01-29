@@ -1,6 +1,7 @@
 package com.simple.project.SimpleBoard.controller;
 
 import com.simple.project.SimpleBoard.domain.form.MemberForm;
+import com.simple.project.SimpleBoard.domain.request.MemberLoginRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +35,14 @@ public class MemberController {
 
     @GetMapping("/login")
     public String loginPage(Model model) {
-        model.addAttribute("memberForm", new MemberForm());
+        model.addAttribute("memberLoginRequest", new MemberLoginRequest());
         return "form/loginPage";
     }
 
     @PostMapping("/login")
-    public String login(@Valid MemberForm memberForm, BindingResult bindingResult) {
-        MemberForm loginMember = memberService.loginMember(memberForm);
-        if (loginMember == null || bindingResult.hasErrors()) {
+    public String login(@Valid MemberLoginRequest memberLoginRequest, BindingResult bindingResult) {
+        MemberForm loginMember = memberService.loginMember(memberLoginRequest);
+        if (loginMember.getId() == null || bindingResult.hasErrors()) {
             return "form/loginPage";
         }
         return "redirect:/";
