@@ -61,4 +61,32 @@ class MemberRepositoryTest {
         assertThat(findMember.getPassword()).isEqualTo(member1.getPassword());
         assertThat(findMember.getName()).isEqualTo(member1.getName());
     }
+
+    @Test
+    @DisplayName("이메일로 회원이 조회되어야 한다.")
+    void findMember_email() {
+        // given
+        Member member1 = Member.createMember()
+                .email("1@1.com")
+                .password("1111")
+                .name("홍길동1")
+                .build();
+
+        Member member2 = Member.createMember()
+                .email("2@2.com")
+                .password("2222")
+                .name("홍길동2")
+                .build();
+
+        String memberEmail = memberRepository.save(member1).getEmail();
+        memberRepository.save(member2);
+
+        // when
+        Member findMember = memberRepository.findByEmail(memberEmail).get();
+
+        // then
+        assertThat(findMember.getEmail()).isEqualTo(member1.getEmail());
+        assertThat(findMember.getPassword()).isEqualTo(member1.getPassword());
+        assertThat(findMember.getName()).isEqualTo(member1.getName());
+    }
 }
