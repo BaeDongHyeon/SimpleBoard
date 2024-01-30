@@ -45,4 +45,18 @@ public class MemberService {
                 .id(null)
                 .build();
     }
+
+    public MemberForm findMember(Long memberId) {
+        Optional<Member> result = memberRepository.findById(memberId);
+
+        if (result.isEmpty()) {
+            return new MemberForm();
+        }
+
+        Member member = result.get();
+        return MemberForm.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .build();
+    }
 }

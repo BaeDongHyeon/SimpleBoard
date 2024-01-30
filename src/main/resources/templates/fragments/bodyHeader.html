@@ -2,5 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="header" th:fragment="bodyHeader">
     <a th:href="@{/}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Home</a>
+    <span th:if="${memberId != null}" th:text="|${memberName}님|"></span>
+    <a th:if="${memberId != null}" th:href="@{/logout}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Logout</a>
+    <a th:if="${memberId == null}" th:href="@{/login}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Login</a>
 </div>
 </html>
