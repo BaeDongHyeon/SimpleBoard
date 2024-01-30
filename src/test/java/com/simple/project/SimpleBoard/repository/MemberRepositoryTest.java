@@ -89,4 +89,23 @@ class MemberRepositoryTest {
         assertThat(findMember.getPassword()).isEqualTo(member1.getPassword());
         assertThat(findMember.getName()).isEqualTo(member1.getName());
     }
+
+    @Test
+    @DisplayName("회원이 삭제되어야 한다.")
+    void updateMember() {
+        // given
+        Member member1 = Member.createMember()
+                .email("1@1.com")
+                .password("1111")
+                .name("홍길동1")
+                .build();
+
+        Long memberId = memberRepository.save(member1).getId();
+
+        // when
+        memberRepository.deleteById(memberId);
+
+        // then
+        assertThat(memberRepository.count()).isEqualTo(0);
+    }
 }
