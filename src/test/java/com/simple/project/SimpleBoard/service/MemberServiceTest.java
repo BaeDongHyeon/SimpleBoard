@@ -42,7 +42,7 @@ class MemberServiceTest {
     @Test
     @Transactional
     @DisplayName("회원이 로그인이 성공되면 번호와 이름이 반환되어야 한다.")
-    void loginMember() {
+    void loginMember_success() {
         // given
         MemberForm memberForm = MemberForm.builder()
                 .email("abc@abc.com")
@@ -63,6 +63,32 @@ class MemberServiceTest {
         // then
         assertThat(loginMember.getId()).isEqualTo(memberId);
         assertThat(loginMember.getName()).isEqualTo(memberForm.getName());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("회원이 로그인이 실패되면 번호와 이름이 null로 반환되어야 한다.")
+    void loginMember_fail() {
+        // given
+        MemberForm memberForm = MemberForm.builder()
+                .email("abc@abc.com")
+                .password("1234")
+                .name("홍길동1")
+                .build();
+
+        memberService.saveMember(memberForm);
+
+        MemberLoginRequest memberLoginRequest = MemberLoginRequest.builder()
+                .email("abc@abc.com")
+                .password("12")
+                .build();
+
+        // when
+        MemberForm loginMember = memberService.loginMember(memberLoginRequest);
+
+        // then
+        assertThat(loginMember.getId()).isNull();
+        assertThat(loginMember.getName()).isNull();
     }
 
     @Test
