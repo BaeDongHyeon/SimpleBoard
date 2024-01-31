@@ -1,7 +1,6 @@
 package com.simple.project.SimpleBoard.repository;
 
 import com.simple.project.SimpleBoard.domain.Member;
-import com.simple.project.SimpleBoard.domain.form.MemberForm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
