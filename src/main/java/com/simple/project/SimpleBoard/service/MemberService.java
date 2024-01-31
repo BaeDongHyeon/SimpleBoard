@@ -15,14 +15,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void saveMember(MemberForm memberForm) {
+    public Long saveMember(MemberForm memberForm) {
         Member member = Member.createMember()
                         .email(memberForm.getEmail())
                         .password(memberForm.getPassword())
                         .name(memberForm.getName())
                         .build();
 
-        memberRepository.save(member);
+        return memberRepository.save(member).getId();
     }
 
     public MemberForm loginMember(MemberLoginRequest memberLoginRequest) {
