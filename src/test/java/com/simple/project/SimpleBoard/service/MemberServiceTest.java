@@ -92,6 +92,23 @@ class MemberServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("회원번호로 회원이 조회되어 번호와 이름이 반환되어야 한다.")
     void findMember() {
+        // given
+        MemberForm memberForm = MemberForm.builder()
+                .email("abc@abc.com")
+                .password("1234")
+                .name("홍길동1")
+                .build();
+
+        Long memberId = memberService.saveMember(memberForm);
+
+        // when
+        MemberForm findResult = memberService.findMember(memberId);
+
+        // then
+        assertThat(findResult.getId()).isNotNull();
+        assertThat(findResult.getName()).isNotNull();
     }
 }
