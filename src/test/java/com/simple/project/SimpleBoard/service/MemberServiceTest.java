@@ -94,7 +94,7 @@ class MemberServiceTest {
     @Test
     @Transactional
     @DisplayName("회원번호로 회원이 조회되어 번호와 이름이 반환되어야 한다.")
-    void findMember() {
+    void findMember_success() {
         // given
         MemberForm memberForm = MemberForm.builder()
                 .email("abc@abc.com")
@@ -110,5 +110,26 @@ class MemberServiceTest {
         // then
         assertThat(findResult.getId()).isNotNull();
         assertThat(findResult.getName()).isNotNull();
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("회원번호로 회원이 조회되지 않아 회원번호와 이름이 null로 반환되어야 한다.")
+    void findMember_fail() {
+        // given
+        MemberForm memberForm = MemberForm.builder()
+                .email("abc@abc.com")
+                .password("1234")
+                .name("홍길동1")
+                .build();
+
+        memberService.saveMember(memberForm);
+
+        // when
+        MemberForm findResult = memberService.findMember(999L);
+
+        // then
+        assertThat(findResult.getId()).isNull();
+        assertThat(findResult.getName()).isNull();
     }
 }
