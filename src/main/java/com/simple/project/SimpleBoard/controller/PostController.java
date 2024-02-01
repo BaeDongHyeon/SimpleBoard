@@ -15,8 +15,6 @@ public class PostController {
 
     private final PostService postService;
 
-
-
     @GetMapping("/write")
     public String writePage(Model model) {
         model.addAttribute("postForm", new PostForm());
