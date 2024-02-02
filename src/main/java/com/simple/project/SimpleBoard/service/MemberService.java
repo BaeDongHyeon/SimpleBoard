@@ -15,14 +15,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void saveMember(MemberForm memberForm) {
+    public Long saveMember(MemberForm memberForm) {
         Member member = Member.createMember()
                         .email(memberForm.getEmail())
                         .password(memberForm.getPassword())
                         .name(memberForm.getName())
                         .build();
 
-        memberRepository.save(member);
+        return memberRepository.save(member).getId();
     }
 
     public MemberForm loginMember(MemberLoginRequest memberLoginRequest) {
@@ -43,6 +43,20 @@ public class MemberService {
         }
         return MemberForm.builder()
                 .id(null)
+                .build();
+    }
+
+    public MemberForm findMember(Long memberId) {
+        Optional<Member> result = memberRepository.findById(memberId);
+
+        if (result.isEmpty()) {
+            return new MemberForm();
+        }
+
+        Member member = result.get();
+        return MemberForm.builder()
+                .id(member.getId())
+                .name(member.getName())
                 .build();
     }
 }

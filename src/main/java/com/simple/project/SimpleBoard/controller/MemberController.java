@@ -3,6 +3,8 @@ package com.simple.project.SimpleBoard.controller;
 import com.simple.project.SimpleBoard.domain.form.MemberForm;
 import com.simple.project.SimpleBoard.domain.request.MemberLoginRequest;
 import com.simple.project.SimpleBoard.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -40,11 +42,22 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid MemberLoginRequest memberLoginRequest, BindingResult bindingResult) {
+    public String login(@Valid MemberLoginRequest memberLoginRequest, BindingResult bindingResult, HttpServletResponse response) {
         MemberForm loginMember = memberService.loginMember(memberLoginRequest);
         if (loginMember.getId() == null || bindingResult.hasErrors()) {
             return "form/loginPage";
         }
+        Cookie cookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+        response.addCookie(cookie);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("memberId", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 }

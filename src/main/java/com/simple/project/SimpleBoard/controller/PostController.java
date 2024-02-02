@@ -15,12 +15,6 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/")
-    public String mainPage(Model model) {
-        model.addAttribute("posts", postService.findAllPosts());
-        return "form/mainPage";
-    }
-
     @GetMapping("/write")
     public String writePage(Model model) {
         model.addAttribute("postForm", new PostForm());

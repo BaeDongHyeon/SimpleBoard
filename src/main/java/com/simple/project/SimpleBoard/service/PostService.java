@@ -25,6 +25,7 @@ public class PostService {
                         .title(post.getTitle())
                         .writer(post.getWriter())
                         .content(post.getContent())
+                        .lastModifiedDate(post.getLastModifiedDate())
                         .build())
                 .collect(Collectors.toList());
     }
