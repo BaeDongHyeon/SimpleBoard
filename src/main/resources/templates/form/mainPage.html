@@ -15,6 +15,7 @@
             <th scope="col">#</th>
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
             <th scope="row" th:text="${post.getId()}"></th>
             <td><a th:href="@{/post/{postId}(postId=${post.getId()})}" th:text="${post.getTitle()}"></a></td>
             <td th:text="${post.getWriter()}"></td>
+            <td th:text="${#temporals.format(post.getLastModifiedDate(), 'yyyy.MM.dd HH:mm')}"></td>
         </tr>
         </tbody>
     </table>

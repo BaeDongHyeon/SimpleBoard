@@ -21,8 +21,6 @@ public class HomeController {
         model.addAttribute("posts", postService.findAllPosts());
         model.addAttribute("memberId", memberId);
 
-        System.out.println(memberId);
-
         if (memberId != null) {
             MemberForm memberForm = memberService.findMember(memberId);
             model.addAttribute("memberName", memberForm.getName());

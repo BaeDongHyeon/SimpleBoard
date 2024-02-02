@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -42,5 +44,9 @@ public class Post extends BaseEntity {
         this.title = title;
         this.writer = writer;
         this.content = content;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return getModifiedDate();
     }
 }
